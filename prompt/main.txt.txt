@@ -1,0 +1,54 @@
+Sen ileri seviye bir Audio DSP Mühendisi ve Yapay Zekâ destekli kod mimarısısın. SIFIRDAN tam çalışır bir Python projesi yaz: çıktı sadece ve yalnızca TAM PYTHON KODU olsun (ek açıklama yok). İstenen özellikleri eksiksiz uygula ve tek seferde üret. Kütüphaneler: numpy, scipy, soundfile (veya sounddevice), matplotlib. Kod şu gereksinimleri karşılasın:
+
+1) ### BÖLÜM: KULLANICI KONTROL PANELİ (kodun en üstünde)
+- Panel bir Python dict/list yapısı olarak ve aynı zamanda **tablosal açıklama blokları** (ör: çok satırlı üç tırnak içinde Markdown-benzeri tablo veya hizalanmış yorum satırları) şeklinde yer alacak. Her satır: Parametre Adı | Açıklama (açık, kısaltmasız) | Referans aralık (net Hz/örnek/değer) | Örnek değer | Etkisi.
+- Master toggles (True/False): ENABLE_NOISE_GENERATOR, ENABLE_NATURAL_SOUNDS, ENABLE_MIXING_SYSTEM, ENABLE_FREQUENCY_FILTERS, ENABLE_VISUALIZER, ENABLE_FILE_EXPORT.
+- Per-type enable/disable: noise_types = {"white":True,"pink":True,"brown":True,"blue":False,"violet":False, ... tüm katalogdaki türler liste halinde}.
+- Gelişmiş noise_mix: her katman için sözlük formatı, örn:
+  noise_mix = {
+    "rain": {"enabled":True,"weight":0.6,"freq_range":(400,2500),"naturalness":0.7},
+    "thunder": {"enabled":True,"weight":0.4,"freq_range":(20,120),"naturalness":0.9},
+    ...
+  }
+- Naturalness sistemini **ultra geniş** yap: naturalness parametresi tek sayı (0–1) olmakla birlikte alt-parametrelerle genişletilebilir: randomness_amount, freq_mod_depth, freq_mod_rate, amp_variation_amount, grain_size, micro_timing_jitter. Tüm bu alt parametreler panelde tabloda yer almalı ve her birinin referans aralıkları açıkça yazılmalı.
+- Frekans-blok: kullanıcı belirli frekans değerleriyle doğrudan işlem yapabilsin: örn specific_frequencies = [452, 1000, 4320] ve her frekans için uygulanacak işlem (boost, notch, band-pass, synth-tone, additive-sine) seçilebilsin. Bu frekans bloğu tablo satırı olarak açıklamalı olmalı.
+
+2) ### BÖLÜM: KATALOG (Noise ve Ses Tipleri Kataloğu)
+- Kod içinde bir büyük dict olarak “KATALOG” yer alacak; içinde **TAM kapsamlı** listeni (technical + natural + hybrid) barındırsın (white, pink, brown, blue, violet, gray, green, rain, wind, ocean, thunder, fire crackle, car, train, vinyl crackle, perlin/fractal, granular vb. — tüm önceki kataloguna uygun tam liste). Her öğe için: kısa teknik tanım, tipik referans frekans aralığı, tipik naturalness önerisi, tipik amplitude aralığı. Bu bilgiler tablo formatında kod yorumlarında da bulunacak.
+
+3) ### BÖLÜM: SES BLOKLARI (her biri ayrı “blog” / modul)
+- Her ses türü için ayrı bir *sound blog* (ör: sound_blog_rain(), sound_blog_thunder(), sound_blog_white(), sound_blog_pink(), brainwave_blog_alpha(), vb.) oluştur. Her blog kendi başına çalışabilir, kendi CONTROL SUB-PANEL satırlarına sahip olsun (yani her blog içinde editable dict ve tablosal yorum).
+- Brainwave / dalga blogları: delta/theta/alpha/beta/gamma/ (ve sen “tetra” dediysen onu da açıkla — kullanıcıya hangi frekans aralığına denk geldiğini göster). Her bir dalga blogu hem sabit frekansta tone üretebilsin hem de istenirse sadece o bandı boost/notch yapabilsin. Referans aralıkları örnek: delta 0.5–4Hz, theta 4–8Hz, alpha 8–13Hz, beta 13–30Hz, gamma 30–100Hz. (Tablodaki referansları kod yorumunda göster.)
+- Her blogun başında **tablosal açıklama yorum bloğu** (Parametre | Açıklama | Referans Aralık | Örnek) bulunsun.
+
+4) ### BÖLÜM: GÜRÜLTÜ ÜRETİCİ / FONKSİYONEL ÖZELLİKLER
+- Fonksiyonlar: generate_noise(type,duration,sr,amplitude,**params), generate_natural_sound(type,duration,sr,amplitude,ref_range,naturalness_params), generate_brainwave(type,duration,sr,amplitude,frequency,mod_params), apply_frequency_ops(signal, ops_list) (ops_list içindeki her öğe tek frekans işlemi: boost/notch/sine-add/phase-shift), mix_blogs(blog_list, mix_config).
+- Color noise üretimi teknik olarak doğru şekilde (white = flat, pink = 1/f, brown = 1/f^2) uygulanmış olsun. Pink/white farkını panelde ve yorumlarda net teknik ifadelerle belirt.
+- Tüm üretimler normalize edilsin ve clipping kontrolü yapılsın.
+
+5) ### BÖLÜM: KARIŞTIRMA SİSTEMİ (mix blog)
+- mix_blog fonksiyonu: verilen blogları (her biri sound_blog fonksiyonu) ağırlıklarına, frekans-range kısıtlarına ve naturalness parametrelerine göre karıştırsın. Panelde mix blog için de ayrı bir tablo bulunsun (hangi bloglar mixlenebilir, önerilen weight aralıkları, örnek kombinasyonlar).
+- Mix esnasında spektral bölme (örn low = thunder, mid = rain, high = crickets) yapmak için frekans-mapping config desteği olsun.
+
+6) ### BÖLÜM: SES ÇIKIŞI & KAYIT
+- ENABLE_FILE_EXPORT True ise kesin WAV dosyası oluşturulsun (stereo veya mono seçimine göre). Dosya adı otomatik timestamp’li.
+- Her üretim sonrası terminalde kısa özet: üretilen blog(lar), süre, sr, stereo/mono, ana ağırlıklar.
+
+7) ### BÖLÜM: GÖRSELLEŞTİRİCİ
+- Dalga formu ve spektrum çizimleri matplotlib ile oluşturulsun; çıktı **daha küçük boyutlu** (ör: figsize=(6,3) veya benzeri).
+- Görseller her blog için isteğe bağlı olarak ayrı ayrı veya karışık haliyle gösterilsin (ENABLE_VISUALIZER toggle ile).
+
+8) ### DOKÜMENTASYON & YORUMLAR
+- Kod içinde **her parametre ve her panel satırı** için tablo şeklinde yorum blokları olmalı (Parametre | Açıklama | Referans Aralık | Örnek Değer | Etki). Kısaltma kullanma; her şey açık yazılsın.
+- Naturalness bloğu için geniş referans aralıkları ve açıklamalar: örn naturalness=0 → tamamen sentetik; 0.25 → hafif rastgelelik; 0.5 → orta (freq mod küçük, amp vary orta); 0.75 → yüksek (freq mod orta, amp vary yüksek, grain/texture eklenir); 1.0 → maksimum gerçekçilik (çoklu modülasyon, mikro-timing jitter, granular overlay). Her aşama için alt-parametreler tablo halinde listelensin ve default değerleri verilsin.
+
+9) ### KULLANICI ETKİLEŞİMİ (kod içi düzenleme)
+- Tüm ayarlar doğrudan kodun üstündeki dict’lerden değiştirilebilir; ayrıca kod içinde yorumla nasıl değiştirebileceğin adım adım gösterilsin (örnek: “rain naturalness için randomness_amount = 0.2 → nasıl etkiler”).
+- **Önemli:** Bu prompt kodu yeniden yazacak; kodu çalıştırdıktan sonra tüm kontrol paneli üzerinden doğrudan değişiklik yapabilmelisin. Kod bir kere üretildiğinde tekrar prompt ile revize isteme; kontrol panelinden değiştir.
+
+10) ### Özel Gereksinimler
+- Prompt sonucunda üretilen kod **tek parça**, çalıştırılabilir Python dosyası (.py) olsun.
+- Kod parça parça çıktı olmasın (token sınırlamasına takılmaması için optimize et), ama eğer çok büyükse Claude’dan isterse tek dosya halinde output üretmesini özellikle belirt.
+- Çıktıda kesinlikle: sadece Python kodu, tek seferde, ek açıklama veya meta-mesaj yok.
+
+Şimdi bu gereksinimleri kesin şekilde uygula ve tam Python kodunu üret.

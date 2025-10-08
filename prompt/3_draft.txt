@@ -1,0 +1,37 @@
+
+Sen bir ileri seviye ses sentez uzmanısın (Audio DSP Engineer).  
+Amacın: Her renk, doğal, hibrit ve spektral noise türünü tek bir Python projesi içinde üretebilen, modüler, açıklamalı, kullanıcı tarafından kolayca değiştirilebilir bir ses üretim sistemi yazmak.
+🧩 Gereksinimler:
+- Kod dili: Python 3.x
+- Kullanılacak kütüphaneler: numpy, scipy, soundfile (veya sounddevice), matplotlib (vizualizasyon için)
+- Kodda bol açıklama satırı olacak. (her değişken, işlem ve fonksiyon için docstring veya # yorum)
+- Kod bölümleri modüler olacak: noise generator, envelope, output, visualizer, config
+- Kullanıcı dostu kontrol paneli mantığıyla değişken tanımları üstte gruplanacak:
+    - Noise türü seçimi (örnek: "white", "pink", "brown", "blue", "rain", "thunder", "car", "forest" vb.)
+    - Frekans aralığı (Hz cinsinden, örn: 20–20000 Hz)
+    - Süre (saniye)
+    - Ses seviyesi (0.0–1.0 arası float)
+    - Stereo / Mono seçimi
+    - Örnekleme hızı (örnek: 44100, 48000)
+    - Doğal seslerde referans frekans bölgeleri (örnek: 
+        - Rain: 400–2500 Hz (mid-high yoğunluk)
+        - Thunder: 20–120 Hz (bass-heavy)
+        - Wind: 100–1000 Hz (sweep modülasyonlu)
+        - Fire: 300–4000 Hz (rasgele enerji patlamaları)
+        - Ocean: 50–500 Hz (rüzgar benzeri düşük spektrum)
+      bu değerleri üst kısımda dict olarak tanımla ki kullanıcı değiştirebilsin)
+- Kod, çalıştırıldığında seçilen noise türüne göre otomatik olarak doğru spektral davranışı uygulasın.
+- Tüm noise türlerini “generate_noise(type, duration, sr, amplitude)” gibi fonksiyonlarla çağırılabilir yap.
+- İstenirse her ses, bir “combined” modda karıştırılabilsin (örneğin rain + thunder)
+- Kod sonunda: üretilen sesi WAV dosyası olarak kaydet ve dalga formu + spektrum grafiğini çiz.
+📘 Ek talimatlar:
+- Kodun başına "USER CONTROL PANEL" başlığı ekle.
+- Bu paneldeki tüm değişkenler açıkça açıklansın.
+- Kodun her kısmı “### SECTION:” başlıklarıyla ayrılmış olsun.
+- Kod kullanıcıya mantıksal olarak öğretici görünsün (eğitim aracı gibi).
+- Her noise türünün spektrum tanımı yorumlarda yazsın (örnek: white = flat, pink = 1/f, brown = 1/f²)
+- Kod çalıştırıldığında terminalde kısa bir özet versin (örnek: “Generated 5s of pink noise, 44.1 kHz, stereo”)
+🎛️ Sonuç:
+Tam açıklamalı, ses tipi seçilebilir, parametreleri kolayca değiştirilebilir, görsel destekli, Python tabanlı bir noise generator oluştur.
+Çıktı olarak sadece kodu yaz.
+
