@@ -1,13 +1,20 @@
-# 🎧 PromptWave — AI Audio Generation via Prompt Engineering
+# 🎧 PromptWave — AI Audio Generation via Prompt Engineering & Vibe Coding
 
-**PromptWave** is a Python-based project that generates audio from text-based AI prompts. It leverages **prompt engineering** to create high-quality, creative audio outputs while keeping user experience simple and intuitive.
+**PromptWave** is a Python-based system that generates audio from text-based AI prompts — blending **prompt engineering** precision with the creative flow of **vibe coding**.  
+The goal is not just to create sound, but to *capture emotion, atmosphere, and intent* through code.
 
 ---
 
 ## 🌐 TR Açıklama
 
 ### Genel Bakış
-PromptWave, farklı taslak ve ana promptlardan ses üretmek için tasarlanmış bir **Python ses sampleri ve prompt yönetim sistemidir**. Projenin temel amacı, kullanıcıların metin tabanlı promptlar aracılığıyla yüksek kaliteli ses dosyaları üretebilmesini sağlamaktır.
+PromptWave, **prompt engineering** yaklaşımını **vibe coding** felsefesiyle birleştiren bir **Python ses üretim sistemidir**.  
+Amaç yalnızca ses üretmek değil, her sesin arkasındaki duyguyu, enerjiyi ve atmosferi yakalayarak “yaratıcı frekanslar” oluşturabilmektir.  
+
+Bu yapı, kullanıcıların kendi tarzlarını ve enerjilerini “prompt”lar aracılığıyla sese dönüştürmelerine olanak tanır.  
+Proje, modüler mimarisiyle kolayca genişletilebilir ve deneysel ses üretimi için idealdir.
+
+---
 
 ### Kullanılan Kütüphaneler
 - `numpy` — Sayısal hesaplamalar ve sinyal işlemleri  
@@ -33,7 +40,12 @@ PromptWave, farklı taslak ve ana promptlardan ses üretmek için tasarlanmış 
 ## 🌐 EN Description
 
 ### Overview
-PromptWave generates audio from text-based AI prompts using **prompt engineering**. It provides a modular, user-friendly Python system for creative audio generation.
+PromptWave merges **prompt engineering** with **vibe coding** — a creative approach to transforming written intent into expressive, atmospheric sound.  
+This project goes beyond traditional code-based generation, focusing on emotional flow and sonic storytelling through prompts.
+
+It provides a modular, user-friendly Python system for creative audio generation and experimentation.
+
+---
 
 ### Libraries Used
 - `numpy` — Numerical computation and signal processing  
@@ -58,5 +70,5 @@ PromptWave generates audio from text-based AI prompts using **prompt engineering
 
 ## 🚀 How to Use
 1. Install dependencies:
-```bash
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
